@@ -5,6 +5,15 @@
  */
 package com.mycompany.bankingservicesystem;
 
+import bankingservicessystem.entity.Customer;
+import bankingservicessystem.helper.CustomerHelper;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author anura
@@ -14,8 +23,30 @@ public class EditCustomer extends javax.swing.JFrame {
     /**
      * Creates new form EditCustomer
      */
+    CustomerHelper customerHelper = new CustomerHelper();
+
     public EditCustomer() {
         initComponents();
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (jTable1.getSelectedRow() > -1) {
+                    // print first column value from selected row
+                    Customer customer = customerHelper.GetCustomerByID(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                    jTextField1.setText(customer.getCustomerID());
+                    jTextField2.setText(customer.getname());
+                    jTextField3.setText(customer.getemail());
+                    jTextField4.setText(customer.getphoneno());
+                    jTextField5.setText(customer.getaddress());
+                    jTextField6.setText(customer.getcity());
+                    jTextField7.setText(customer.getstate());
+                    jTextField8.setText(customer.getcountry());
+                    jTextField9.setText(Double.toString(customer.getbalance()));
+                    jList1.setSelectedValue(customer.getaccountType(), true);
+                    jTextField2.setText(customer.getname());
+                }
+            }
+        });
     }
 
     /**
@@ -60,6 +91,11 @@ public class EditCustomer extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         jLabel7.setText("City");
@@ -75,6 +111,11 @@ public class EditCustomer extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jButton1.setText("Edit Account");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setEditable(false);
 
@@ -116,6 +157,11 @@ public class EditCustomer extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         jMenu1.setText("Customer");
@@ -273,26 +319,75 @@ public class EditCustomer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        CustomerRegistration home=new CustomerRegistration();
-            home.show();
-            this.hide();
+        CustomerRegistration home = new CustomerRegistration();
+        home.show();
+        this.hide();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        StaffLogin home=new StaffLogin();
-            home.show();
-            this.hide();
+        StaffLogin home = new StaffLogin();
+        home.show();
+        this.hide();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        DepositWithdrawl home=new DepositWithdrawl();
-            home.show();
-            this.hide();
+        DepositWithdrawl home = new DepositWithdrawl();
+        home.show();
+        this.hide();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        List<Customer> listCustomer = customerHelper.GetAllCustomers();
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.addColumn("Customer ID");
+        tableModel.addColumn("Account Type");
+        tableModel.addColumn("Name");
+        tableModel.addColumn("Email");
+        tableModel.addColumn("Phone No");
+        tableModel.addColumn("Address");
+        tableModel.addColumn("City");
+        tableModel.addColumn("State");
+        tableModel.addColumn("Country");
+        tableModel.addColumn("Balance");
+        for (Customer cust : listCustomer) {
+            tableModel.addRow(new Object[]{cust.getCustomerID(), cust.getaccountType(), cust.getname(), cust.getemail(), cust.getphoneno(), cust.getaddress(), cust.getcity(), cust.getstate(), cust.getcountry(), cust.getbalance()});
+        }
+        jTable1.setModel(tableModel);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Customer customer = new Customer();
+        customer.setCustomerID(jTextField1.getText());
+        customer.setaccountType(jList1.getSelectedValue());
+        customer.setaddress(jTextField5.getText());
+        customer.setbalance(Double.parseDouble(jTextField9.getText()));
+        customer.setcity(jTextField6.getText());
+        customer.setcountry(jTextField8.getText());
+        customer.setemail(jTextField3.getText());
+        customer.setname(jTextField2.getText());
+        customer.setphoneno(jTextField4.getText());
+        customer.setstate(jTextField7.getText());
+        if(customerHelper.UpdateCustomers(customer))
+        {
+             JOptionPane.showMessageDialog(this,"Customer details updated successfully");  
+        }
+        else    
+        {
+            JOptionPane.showMessageDialog(this,"Some error occured");  
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

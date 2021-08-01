@@ -5,6 +5,10 @@
  */
 package com.mycompany.bankingservicesystem;
 
+import bankingservicessystem.entity.Customer;
+import bankingservicessystem.helper.CustomerHelper;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author anura
@@ -82,6 +86,11 @@ public class DepositWithdrawl extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jButton1.setText("Submit Transaction");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         jLabel8.setText("State");
@@ -116,6 +125,11 @@ public class DepositWithdrawl extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Candara", 0, 12)); // NOI18N
         jButton2.setText("Get Customer Details");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextField10.setEditable(false);
 
@@ -294,26 +308,94 @@ public class DepositWithdrawl extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    CustomerHelper customerHelper = new CustomerHelper();
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        EditCustomer home=new EditCustomer();
+        EditCustomer home = new EditCustomer();
         home.show();
         this.hide();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        StaffLogin home=new StaffLogin();
+        StaffLogin home = new StaffLogin();
         home.show();
         this.hide();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        CustomerRegistration home=new CustomerRegistration();
+        CustomerRegistration home = new CustomerRegistration();
         home.show();
         this.hide();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Customer customer = customerHelper.GetCustomerByID(jTextField1.getText());
+        jTextField1.setText(customer.getCustomerID());
+        jTextField2.setText(customer.getname());
+        jTextField3.setText(customer.getemail());
+        jTextField4.setText(customer.getphoneno());
+        jTextField5.setText(customer.getaddress());
+        jTextField6.setText(customer.getcity());
+        jTextField7.setText(customer.getstate());
+        jTextField8.setText(customer.getcountry());
+        jTextField9.setText(Double.toString(customer.getbalance()));
+        jTextField9.setText(customer.getaccountType());
+        jTextField2.setText(customer.getname());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (jTextField9.getText() != "") {
+            Customer customer = new Customer();
+            customer.setCustomerID(jTextField1.getText());
+            customer.setaccountType(jTextField10.getText());
+            customer.setaddress(jTextField5.getText());
+            customer.setbalance(Double.parseDouble(jTextField9.getText()) + Double.parseDouble(jTextField9.getText()));
+            customer.setcity(jTextField6.getText());
+            customer.setcountry(jTextField8.getText());
+            customer.setemail(jTextField3.getText());
+            customer.setname(jTextField2.getText());
+            customer.setphoneno(jTextField4.getText());
+            customer.setstate(jTextField7.getText());
+            if (customerHelper.UpdateCustomers(customer)) {
+                JOptionPane.showMessageDialog(this, "Transaction completed successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Some error occured");
+            }
+        } else if (jTextField11.getText() != "") {
+
+            if (jTextField10.getText() == "Savings" && Double.parseDouble(jTextField11.getText()) < 100) {
+                JOptionPane.showMessageDialog(this, "Your minimum savings balance is less than RM100. Transaction cannot be completed.");
+                return;
+            }
+            if (jTextField10.getText() == "Current" && Double.parseDouble(jTextField11.getText()) < 500) {
+                JOptionPane.showMessageDialog(this, "Your minimum current balance is less than RM500. Transaction cannot be completed.");
+                return;
+            }
+            Customer customer = new Customer();
+            customer.setCustomerID(jTextField1.getText());
+            customer.setaccountType(jTextField10.getText());
+            customer.setaddress(jTextField5.getText());
+            customer.setbalance(Double.parseDouble(jTextField9.getText()) - Double.parseDouble(jTextField11.getText()));
+            customer.setcity(jTextField6.getText());
+            customer.setcountry(jTextField8.getText());
+            customer.setemail(jTextField3.getText());
+            customer.setname(jTextField2.getText());
+            customer.setphoneno(jTextField4.getText());
+            customer.setstate(jTextField7.getText());
+            if (customerHelper.UpdateCustomers(customer)) {
+                JOptionPane.showMessageDialog(this, "Transaction completed successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Some error occured");
+            }
+        } else if (jTextField11.getText() != "" && jTextField9.getText() != "") {
+            JOptionPane.showMessageDialog(this, "Please input either deposit or withdraw balance.");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,6 +5,11 @@
  */
 package com.mycompany.bankingservicesystem;
 
+import bankingservicessystem.entity.Customer;
+import bankingservicessystem.helper.CustomerHelper;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author anura
@@ -59,6 +64,11 @@ public class CustomerRegistration extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         jLabel1.setText("Customer ID");
@@ -104,6 +114,11 @@ public class CustomerRegistration extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jButton1.setText("Create Account");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Customer");
 
@@ -260,26 +275,63 @@ public class CustomerRegistration extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    CustomerHelper customerHelper = new CustomerHelper();
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-            EditCustomer home=new EditCustomer();
-            home.show();
-            this.hide();
+        EditCustomer home = new EditCustomer();
+        home.show();
+        this.hide();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        StaffLogin home=new StaffLogin();
-            home.show();
-            this.hide();
+        StaffLogin home = new StaffLogin();
+        home.show();
+        this.hide();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-         DepositWithdrawl home=new DepositWithdrawl();
-            home.show();
-            this.hide();
+        DepositWithdrawl home = new DepositWithdrawl();
+        home.show();
+        this.hide();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Customer customer = new Customer();
+        customer.setCustomerID(jTextField1.getText());
+        customer.setaccountType(jList1.getSelectedValue());
+        customer.setaddress(jTextField5.getText());
+        customer.setbalance(Double.parseDouble(jTextField9.getText()));
+        customer.setcity(jTextField6.getText());
+        customer.setcountry(jTextField8.getText());
+        customer.setemail(jTextField3.getText());
+        customer.setname(jTextField2.getText());
+        customer.setphoneno(jTextField4.getText());
+        customer.setstate(jTextField7.getText());
+        if(customerHelper.AddCustomers(customer))
+        {
+             JOptionPane.showMessageDialog(this,"Customer added successfully");  
+        }
+        else    
+        {
+            JOptionPane.showMessageDialog(this,"Some error occured");  
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        List<Customer> listCustomer = customerHelper.GetAllCustomers();
+        if (listCustomer.size() == 0) {
+            jTextField1.setText("ABC1");
+        } else {
+            Customer cust = listCustomer.get(listCustomer.size() - 1);
+            int lastCustomerID = Integer.parseInt(cust.getCustomerID().substring(3, 4));
+            jTextField1.setText("ABC" + lastCustomerID + 1);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

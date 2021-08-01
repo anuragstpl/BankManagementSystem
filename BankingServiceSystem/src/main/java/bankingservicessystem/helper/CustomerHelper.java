@@ -72,6 +72,35 @@ public class CustomerHelper {
         return lstCustomers;
     }
      
+      public Customer GetCustomerByID(String customerID) {
+        Customer cust = new Customer();
+        try {
+            if (isDataExists()) {
+                Path path = Paths.get(fileName);
+                byte[] bytes = Files.readAllBytes(path);
+                List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+                for (String data : allLines) {
+                    String[] arrOfStr = data.split("::");
+                    if(arrOfStr[0]==customerID){
+                    cust.setCustomerID(arrOfStr[0]);
+                    cust.setaccountType(arrOfStr[1]);
+                    cust.setaddress(arrOfStr[2]);
+                    cust.setbalance(Double.parseDouble(arrOfStr[3]));
+                    cust.setcity(arrOfStr[4]);
+                    cust.setcountry(arrOfStr[5]);
+                    cust.setemail(arrOfStr[6]);
+                    cust.setname(arrOfStr[7]);
+                    cust.setphoneno(arrOfStr[8]);
+                    cust.setstate(arrOfStr[9]);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cust;
+    }
+     
      public Boolean AddCustomers(Customer customer) {
         Boolean isCustomerAdded = false;
         try {
