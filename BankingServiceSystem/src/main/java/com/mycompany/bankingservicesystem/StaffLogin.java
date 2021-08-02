@@ -5,6 +5,8 @@
  */
 package com.mycompany.bankingservicesystem;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author anura
@@ -102,11 +104,12 @@ public class StaffLogin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(jTextField1.getText().equals("admin") && jTextField2.getText().equals("123456"))
-        {
-            CustomerRegistration home=new CustomerRegistration();
+        if (jTextField1.getText().equals("admin") && jTextField2.getText().equals("123456")) {
+            CustomerRegistration home = new CustomerRegistration();
             home.show();
             this.hide();
+        } else {
+            JOptionPane.showMessageDialog(this, "Incorrect credentials");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

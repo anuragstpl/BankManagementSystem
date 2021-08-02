@@ -300,24 +300,25 @@ public class CustomerRegistration extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Customer customer = new Customer();
-        customer.setCustomerID(jTextField1.getText());
-        customer.setaccountType(jList1.getSelectedValue());
-        customer.setaddress(jTextField5.getText());
-        customer.setbalance(Double.parseDouble(jTextField9.getText()));
-        customer.setcity(jTextField6.getText());
-        customer.setcountry(jTextField8.getText());
-        customer.setemail(jTextField3.getText());
-        customer.setname(jTextField2.getText());
-        customer.setphoneno(jTextField4.getText());
-        customer.setstate(jTextField7.getText());
-        if(customerHelper.AddCustomers(customer))
-        {
-             JOptionPane.showMessageDialog(this,"Customer added successfully");  
-        }
-        else    
-        {
-            JOptionPane.showMessageDialog(this,"Some error occured");  
+        if (jList1.getSelectedValue() != null && jTextField2.getText() != "" && jTextField3.getText() != "" && jTextField4.getText() != "" && jTextField5.getText() != "" && jTextField6.getText() != "" && jTextField7.getText() != "" && jTextField8.getText() != "") {
+            Customer customer = new Customer();
+            customer.setCustomerID(jTextField1.getText());
+            customer.setaccountType(jList1.getSelectedValue());
+            customer.setaddress(jTextField5.getText());
+            customer.setbalance(Double.parseDouble(jTextField9.getText()));
+            customer.setcity(jTextField6.getText());
+            customer.setcountry(jTextField8.getText());
+            customer.setemail(jTextField3.getText());
+            customer.setname(jTextField2.getText());
+            customer.setphoneno(jTextField4.getText());
+            customer.setstate(jTextField7.getText());
+            if (customerHelper.AddCustomers(customer)) {
+                JOptionPane.showMessageDialog(this, "Customer added successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Some error occured");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please fill all the fields");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -329,7 +330,7 @@ public class CustomerRegistration extends javax.swing.JFrame {
         } else {
             Customer cust = listCustomer.get(listCustomer.size() - 1);
             int lastCustomerID = Integer.parseInt(cust.getCustomerID().substring(3, 4));
-            jTextField1.setText("ABC" + lastCustomerID + 1);
+            jTextField1.setText("ABC" + (lastCustomerID + 1));
         }
     }//GEN-LAST:event_formWindowOpened
 

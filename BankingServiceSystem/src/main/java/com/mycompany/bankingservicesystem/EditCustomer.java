@@ -106,6 +106,8 @@ public class EditCustomer extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         jLabel1.setText("Customer ID");
 
+        jTextField9.setEditable(false);
+
         jLabel3.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         jLabel3.setText("Name");
 
@@ -341,9 +343,9 @@ public class EditCustomer extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-        List<Customer> listCustomer = customerHelper.GetAllCustomers();
+    public void LoadCustomers()
+    {
+         List<Customer> listCustomer = customerHelper.GetAllCustomers();
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Customer ID");
         tableModel.addColumn("Account Type");
@@ -359,6 +361,11 @@ public class EditCustomer extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{cust.getCustomerID(), cust.getaccountType(), cust.getname(), cust.getemail(), cust.getphoneno(), cust.getaddress(), cust.getcity(), cust.getstate(), cust.getcountry(), cust.getbalance()});
         }
         jTable1.setModel(tableModel);
+    }
+    
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+       LoadCustomers();
     }//GEN-LAST:event_formWindowOpened
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -368,24 +375,26 @@ public class EditCustomer extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Customer customer = new Customer();
-        customer.setCustomerID(jTextField1.getText());
-        customer.setaccountType(jList1.getSelectedValue());
-        customer.setaddress(jTextField5.getText());
-        customer.setbalance(Double.parseDouble(jTextField9.getText()));
-        customer.setcity(jTextField6.getText());
-        customer.setcountry(jTextField8.getText());
-        customer.setemail(jTextField3.getText());
-        customer.setname(jTextField2.getText());
-        customer.setphoneno(jTextField4.getText());
-        customer.setstate(jTextField7.getText());
-        if(customerHelper.UpdateCustomers(customer))
-        {
-             JOptionPane.showMessageDialog(this,"Customer details updated successfully");  
-        }
-        else    
-        {
-            JOptionPane.showMessageDialog(this,"Some error occured");  
+        if (jTextField1.getText() != "" && jTextField2.getText() != "" && jTextField3.getText() != "" && jTextField4.getText() != "" && jTextField5.getText() != "" && jTextField6.getText() != "" && jTextField7.getText() != "" && jTextField8.getText() != "") {
+            Customer customer = new Customer();
+            customer.setCustomerID(jTextField1.getText());
+            customer.setaccountType(jList1.getSelectedValue());
+            customer.setaddress(jTextField5.getText());
+            customer.setbalance(Double.parseDouble(jTextField9.getText()));
+            customer.setcity(jTextField6.getText());
+            customer.setcountry(jTextField8.getText());
+            customer.setemail(jTextField3.getText());
+            customer.setname(jTextField2.getText());
+            customer.setphoneno(jTextField4.getText());
+            customer.setstate(jTextField7.getText());
+            if (customerHelper.UpdateCustomers(customer)) {
+                JOptionPane.showMessageDialog(this, "Customer details updated successfully");
+                LoadCustomers();
+            } else {
+                JOptionPane.showMessageDialog(this, "Some error occured");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please fill all the fields");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

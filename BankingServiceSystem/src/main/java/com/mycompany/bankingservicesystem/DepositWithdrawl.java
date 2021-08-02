@@ -288,12 +288,13 @@ public class DepositWithdrawl extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(122, 122, 122)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel13)
-                                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel10)
+                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -341,60 +342,64 @@ public class DepositWithdrawl extends javax.swing.JFrame {
         jTextField6.setText(customer.getcity());
         jTextField7.setText(customer.getstate());
         jTextField8.setText(customer.getcountry());
-        jTextField9.setText(Double.toString(customer.getbalance()));
-        jTextField9.setText(customer.getaccountType());
+        jTextField12.setText(Double.toString(customer.getbalance()));
+        jTextField10.setText(customer.getaccountType());
         jTextField2.setText(customer.getname());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if (jTextField9.getText() != "") {
-            Customer customer = new Customer();
-            customer.setCustomerID(jTextField1.getText());
-            customer.setaccountType(jTextField10.getText());
-            customer.setaddress(jTextField5.getText());
-            customer.setbalance(Double.parseDouble(jTextField9.getText()) + Double.parseDouble(jTextField9.getText()));
-            customer.setcity(jTextField6.getText());
-            customer.setcountry(jTextField8.getText());
-            customer.setemail(jTextField3.getText());
-            customer.setname(jTextField2.getText());
-            customer.setphoneno(jTextField4.getText());
-            customer.setstate(jTextField7.getText());
-            if (customerHelper.UpdateCustomers(customer)) {
-                JOptionPane.showMessageDialog(this, "Transaction completed successfully");
-            } else {
-                JOptionPane.showMessageDialog(this, "Some error occured");
-            }
-        } else if (jTextField11.getText() != "") {
+        if (jTextField2.getText() != "" && jTextField3.getText() != "" && jTextField4.getText() != "" && jTextField5.getText() != "" && jTextField6.getText() != "" && jTextField7.getText() != "" && jTextField8.getText() != "" && jTextField9.getText() != "" ) {
 
-            if (jTextField10.getText() == "Savings" && Double.parseDouble(jTextField11.getText()) < 100) {
-                JOptionPane.showMessageDialog(this, "Your minimum savings balance is less than RM100. Transaction cannot be completed.");
-                return;
+            // TODO add your handling code here:
+            if (!jTextField9.getText().equals("")) {
+                Customer customer = new Customer();
+                customer.setCustomerID(jTextField1.getText());
+                customer.setaccountType(jTextField10.getText());
+                customer.setaddress(jTextField5.getText());
+                customer.setbalance(Double.parseDouble(jTextField12.getText()) + Double.parseDouble(jTextField9.getText()));
+                customer.setcity(jTextField6.getText());
+                customer.setcountry(jTextField8.getText());
+                customer.setemail(jTextField3.getText());
+                customer.setname(jTextField2.getText());
+                customer.setphoneno(jTextField4.getText());
+                customer.setstate(jTextField7.getText());
+                if (customerHelper.UpdateCustomers(customer)) {
+                    JOptionPane.showMessageDialog(this, "Transaction completed successfully");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Some error occured");
+                }
+            } else if (!jTextField11.getText().equals("")) {
+
+                if (jTextField10.getText().equals("Savings") && Double.parseDouble(jTextField12.getText()) < 100) {
+                    JOptionPane.showMessageDialog(this, "Your minimum savings balance is less than RM100. Transaction cannot be completed.");
+                    return;
+                }
+                if (jTextField10.getText().equals("Current") && Double.parseDouble(jTextField12.getText()) < 500) {
+                    JOptionPane.showMessageDialog(this, "Your minimum current balance is less than RM500. Transaction cannot be completed.");
+                    return;
+                }
+                Customer customer = new Customer();
+                customer.setCustomerID(jTextField1.getText());
+                customer.setaccountType(jTextField10.getText());
+                customer.setaddress(jTextField5.getText());
+                customer.setbalance(Double.parseDouble(jTextField12.getText()) - Double.parseDouble(jTextField11.getText()));
+                customer.setcity(jTextField6.getText());
+                customer.setcountry(jTextField8.getText());
+                customer.setemail(jTextField3.getText());
+                customer.setname(jTextField2.getText());
+                customer.setphoneno(jTextField4.getText());
+                customer.setstate(jTextField7.getText());
+                if (customerHelper.UpdateCustomers(customer)) {
+                    JOptionPane.showMessageDialog(this, "Transaction completed successfully");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Some error occured");
+                }
+            } else if (jTextField11.getText() != "" && jTextField9.getText() != "") {
+                JOptionPane.showMessageDialog(this, "Please input either deposit or withdraw balance.");
             }
-            if (jTextField10.getText() == "Current" && Double.parseDouble(jTextField11.getText()) < 500) {
-                JOptionPane.showMessageDialog(this, "Your minimum current balance is less than RM500. Transaction cannot be completed.");
-                return;
-            }
-            Customer customer = new Customer();
-            customer.setCustomerID(jTextField1.getText());
-            customer.setaccountType(jTextField10.getText());
-            customer.setaddress(jTextField5.getText());
-            customer.setbalance(Double.parseDouble(jTextField9.getText()) - Double.parseDouble(jTextField11.getText()));
-            customer.setcity(jTextField6.getText());
-            customer.setcountry(jTextField8.getText());
-            customer.setemail(jTextField3.getText());
-            customer.setname(jTextField2.getText());
-            customer.setphoneno(jTextField4.getText());
-            customer.setstate(jTextField7.getText());
-            if (customerHelper.UpdateCustomers(customer)) {
-                JOptionPane.showMessageDialog(this, "Transaction completed successfully");
-            } else {
-                JOptionPane.showMessageDialog(this, "Some error occured");
-            }
-        } else if (jTextField11.getText() != "" && jTextField9.getText() != "") {
-            JOptionPane.showMessageDialog(this, "Please input either deposit or withdraw balance.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Please fill all the fields");
         }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

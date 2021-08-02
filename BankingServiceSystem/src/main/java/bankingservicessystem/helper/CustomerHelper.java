@@ -81,7 +81,7 @@ public class CustomerHelper {
                 List<String> allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
                 for (String data : allLines) {
                     String[] arrOfStr = data.split("::");
-                    if(arrOfStr[0]==customerID){
+                    if(arrOfStr[0].equals(customerID)){
                     cust.setCustomerID(arrOfStr[0]);
                     cust.setaccountType(arrOfStr[1]);
                     cust.setaddress(arrOfStr[2]);
